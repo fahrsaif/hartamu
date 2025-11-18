@@ -9,6 +9,42 @@
         title: null,
     });
 
+    async function exportOPFSAsZip() {
+        if (!navigator.storage?.getDirectory) {
+            alert("OPFS not supported in this browser.");
+            return;
+        }
+
+        const root = await navigator.storage.getDirectory();
+        const zip = new JSZip();
+
+        async function addToZip(dirHandle, zipFolder) {
+            for await (const [name, handle] of dirHandle.entries()) {
+                if (handle.kind === "file") {
+                    const file = await handle.getFile();
+                    const data = await file.arrayBuffer();
+                    zipFolder.file(name, data);
+                } else if (handle.kind === "directory") {
+                    const newZipFolder = zipFolder.folder(name);
+                    const subdir = await dirHandle.getDirectoryHandle(name);
+                    await addToZip(subdir, newZipFolder);
+                }
+            }
+        }
+
+        await addToZip(root, zip);
+
+        const blob = await zip.generateAsync({ type: "blob" });
+
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "opfs_backup.zip";
+        a.click();
+
+        URL.revokeObjectURL(url);
+    }
+
     onMount(async () => {
         await getAll();
     });
@@ -52,6 +88,7 @@
 <form onsubmit={save}>
     <input type="text" bind:value={todo.title} />
     <button>submit</button>
+    <button type="button" onclick={exportOPFSAsZip}>export</button>
 </form>
 <table>
     <thead>
