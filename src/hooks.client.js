@@ -1,4 +1,5 @@
 import { db } from "$lib/db";
+import '@tabler/core/dist/js/tabler.min.js';
 
 await db.sql`
 CREATE TABLE IF NOT EXISTS categories (

@@ -19,6 +19,9 @@
 		"vite": "^7.1.10"
 	},
 	"dependencies": {
+		"@fontsource/inter": "^5.2.8",
+		"@lucide/svelte": "^0.554.0",
+		"@tabler/core": "^1.4.0",
 		"sqlocal": "^0.16.0"
 	}
 }
