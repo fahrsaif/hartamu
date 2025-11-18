@@ -1,23 +1,12 @@
 import { db } from "$lib/db";
 
 await db.sql`
---
--- Cleanup: Drop the previous 'todos' table entirely, as it is no longer needed.
---
-DROP TABLE IF EXISTS todos;
-
---
--- Table 1: categories (Lookup table for expense types)
---
 CREATE TABLE IF NOT EXISTS categories (
     category_id INTEGER PRIMARY KEY AUTOINCREMENT,
     name        TEXT    NOT NULL UNIQUE,
     description TEXT
 );
 
---
--- Table 2: expenses (Main table for recording transactions)
---
 CREATE TABLE IF NOT EXISTS expenses (
     expense_id      INTEGER PRIMARY KEY AUTOINCREMENT,
     category_id     INTEGER NOT NULL,
@@ -33,13 +22,4 @@ CREATE TABLE IF NOT EXISTS expenses (
         REFERENCES categories (category_id)
         ON DELETE RESTRICT -- Prevents deleting a category if expenses are still linked
 );
-
--- Optional: Create a few default categories for quick setup
-INSERT INTO categories (name) VALUES 
-('Groceries'),
-('Utilities'),
-('Rent'),
-('Transportation'),
-('Entertainment'),
-('Salary');
 `
