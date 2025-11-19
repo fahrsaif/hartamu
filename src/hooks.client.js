@@ -2,9 +2,6 @@ import { db } from "$lib/db";
 import '@tabler/core/dist/js/tabler.min.js';
 
 await db.sql`
-DROP TABLE IF EXIST categories;
-DROP TABLE IF EXIST expenses;
-
 CREATE TABLE IF NOT EXIST wallets (
     wallet_id   INTEGER PRIMARY KEY AUTOINCREMENT,
     name        TEXT    NOT NULL UNIQUE, -- e.g., 'Main Checking', 'Cash', 'Credit Card'
