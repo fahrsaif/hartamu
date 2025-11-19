@@ -1,0 +1,6 @@
+@import "@fontsource/inter";
+@import "@tabler/core/dist/css/tabler.min.css";
+
+.card {
+    --tblr-card-border-radius: 0px
+}
