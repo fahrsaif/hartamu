@@ -2,8 +2,8 @@ import { db } from "$lib/db";
 import '@tabler/core/dist/js/tabler.min.js';
 
 await db.sql`
-DROP TABLE categories
-DROP TABLE expenses
+DROP TABLE categories;
+DROP TABLE expenses;
 
 CREATE TABLE wallets (
     wallet_id   INTEGER PRIMARY KEY AUTOINCREMENT,
