@@ -2,9 +2,10 @@ import { db } from "$lib/db";
 import '@tabler/core/dist/js/tabler.min.js';
 
 await db.sql`
-DROP TABLE expenses;
+DROP TABLE IF EXIST categories;
+DROP TABLE IF EXIST expenses;
 
-CREATE TABLE wallets (
+CREATE TABLE IF NOT EXIST wallets (
     wallet_id   INTEGER PRIMARY KEY AUTOINCREMENT,
     name        TEXT    NOT NULL UNIQUE, -- e.g., 'Main Checking', 'Cash', 'Credit Card'
     type        TEXT,                    -- e.g., 'Bank', 'Cash', 'Credit'
@@ -13,13 +14,13 @@ CREATE TABLE wallets (
     created_at  TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%S', 'now'))
 );
 
-CREATE TABLE categories (
+CREATE TABLE IF NOT EXIST categories (
     category_id INTEGER PRIMARY KEY AUTOINCREMENT,
     name        TEXT    NOT NULL UNIQUE,
     description TEXT
 );
 
-CREATE TABLE expenses (
+CREATE TABLE IF NOT EXIST expenses (
     expense_id      INTEGER PRIMARY KEY AUTOINCREMENT,
     category_id     INTEGER NOT NULL,
     wallet_id       INTEGER NOT NULL, -- NEW FOREIGN KEY
