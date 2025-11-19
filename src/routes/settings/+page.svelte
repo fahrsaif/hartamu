@@ -2,23 +2,29 @@
     import { ChevronRight } from "@lucide/svelte";
 </script>
 
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title fw-semibold">Settings</h3>
-    </div>
-    <div class="list-group list-group-flush">
-        <a
-            href="/settings/category"
-            class="list-group-item list-group-item-action d-flex justify-content-between"
+<header class="navbar navbar-expand-md d-print-none">
+    <div class="container-xl justify-content-center">
+        <div
+            class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3"
         >
-            Category
-            <ChevronRight />
-        </a>
+            Settings
+        </div>
+    </div>
+</header>
+<div class="card">
+    <div class="list-group list-group-flush">
         <a
             href="/settings/wallet"
             class="list-group-item list-group-item-action d-flex justify-content-between"
         >
             Wallet
+            <ChevronRight />
+        </a>
+        <a
+            href="/settings/category"
+            class="list-group-item list-group-item-action d-flex justify-content-between"
+        >
+            Category
             <ChevronRight />
         </a>
     </div>
