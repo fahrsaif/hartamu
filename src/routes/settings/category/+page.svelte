@@ -87,7 +87,7 @@
         <div
             class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3"
         >
-            Category
+            Categories
         </div>
         <a
             type="button"
@@ -144,30 +144,21 @@
     </div>
     <div class="offcanvas-body">
         <form class="space-y" onsubmit={save}>
-            <div>
-                <input
-                    type="text"
-                    placeholder="Name"
-                    class="form-control"
-                    bind:value={category.name}
-                />
-            </div>
-            <div>
-                <input
-                    type="text"
-                    placeholder="Description"
-                    class="form-control"
-                    bind:value={category.description}
-                />
-            </div>
-            <div>
-                <button
-                    class="btn btn-primary w-100"
-                    data-bs-dismiss="offcanvas"
-                >
-                    {buttonTitle}
-                </button>
-            </div>
+            <input
+                type="text"
+                placeholder="Name"
+                class="form-control"
+                bind:value={category.name}
+            />
+            <input
+                type="text"
+                placeholder="Description"
+                class="form-control"
+                bind:value={category.description}
+            />
+            <button class="btn btn-primary w-100" data-bs-dismiss="offcanvas">
+                {buttonTitle}
+            </button>
         </form>
     </div>
 </div>
