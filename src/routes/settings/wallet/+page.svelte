@@ -21,7 +21,7 @@
 
     async function getAll() {
         wallets = await db.sql`
-        SELECT wallet_id, name, type, initial_balance
+        SELECT wallet_id, name, type, initial_balance, current_balance
         FROM wallets
         ORDER BY name ASC;
         `;
@@ -56,13 +56,14 @@
             SET 
                 name = ${wallet.name},
                 type = ${wallet.type},
-                initial_balance = ${wallet.initial_balance}
+                initial_balance = ${wallet.initial_balance},
+                current_balance = ${wallet.initial_balance}
             WHERE wallet_id = ${wallet.id};
             `;
         } else {
             await db.sql`
-            INSERT INTO wallets (name, type, initial_balance) 
-            VALUES (${wallet.name}, ${wallet.type}, ${wallet.initial_balance});
+            INSERT INTO wallets (name, type, initial_balance, current_balance) 
+            VALUES (${wallet.name}, ${wallet.type}, ${wallet.initial_balance}, ${wallet.initial_balance});
             `;
         }
 
@@ -108,7 +109,9 @@
             >
                 <div>
                     <div>{item.name}</div>
-                    <div class="fs-5 text-secondary">{item.type}</div>
+                    <div class="fs-5 text-secondary">
+                        {item.current_balance}
+                    </div>
                 </div>
                 <div>
                     <button

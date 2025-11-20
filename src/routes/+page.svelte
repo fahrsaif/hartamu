@@ -76,13 +76,13 @@
             wallet_id: item.wallet_id,
             category_id: item.category_id,
             date: item.date,
-            amount: item.amount,
+            amount: item.amount < 0 ? item.amount * -1 : item.amount, // neutralize sign on edit
             description: item.description,
         };
     }
 
     async function save() {
-        expense.amount = amountSign + expense.amount;
+        expense.amount = amountSign + expense.amount; // correct sign when save
 
         if (expense.id) {
             await db.sql`
@@ -102,6 +102,7 @@
             `;
         }
 
+        await updateWalletBalance(expense.wallet_id);
         await getAll();
     }
 
@@ -111,7 +112,28 @@
         WHERE expense_id = ${expense.id};
         `;
 
+        await updateWalletBalance(expense.wallet_id);
         await getAll();
+    }
+
+    async function updateWalletBalance(wallet_id) {
+        let result = await db.sql`
+        SELECT 
+            SUM(amount) AS total_balance
+        FROM 
+            expenses
+        WHERE 
+            wallet_id = ${wallet_id};
+        `;
+        let transactionSum = result[0].total_balance;
+
+        await db.sql`
+        UPDATE wallets
+        SET
+            current_balance = ${transactionSum}
+        WHERE
+            wallet_id = ${wallet_id}
+        `;
     }
 
     onMount(async () => {

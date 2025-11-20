@@ -23,5 +23,12 @@
             Category
             <ChevronRight />
         </a>
+        <a
+            href="/settings/advanced"
+            class="list-group-item list-group-item-action d-flex justify-content-between"
+        >
+            Advanced
+            <ChevronRight />
+        </a>
     </div>
 </div>
