@@ -156,7 +156,10 @@
                 class="form-control"
                 bind:value={category.description}
             />
-            <button class="btn btn-primary w-100" data-bs-dismiss="offcanvas">
+            <button
+                class="btn btn-primary w-100 mt-3"
+                data-bs-dismiss="offcanvas"
+            >
                 {buttonTitle}
             </button>
         </form>

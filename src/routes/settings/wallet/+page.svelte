@@ -148,29 +148,37 @@
     </div>
     <div class="offcanvas-body">
         <form class="space-y" onsubmit={save}>
-            <input
-                type="text"
-                placeholder="Name"
-                class="form-control"
-                bind:value={wallet.name}
-            />
-            <select
-                type="text"
-                placeholder="Type"
-                class="form-select"
-                bind:value={wallet.type}
+            <div>
+                <div class="form-label">Name</div>
+                <input
+                    type="text"
+                    class="form-control"
+                    bind:value={wallet.name}
+                />
+            </div>
+            <div>
+                <div class="form-label">Type</div>
+                <select
+                    type="text"
+                    class="form-select"
+                    bind:value={wallet.type}
+                >
+                    <option value="Cash">Cash</option>
+                    <option value="Bank">Bank</option>
+                </select>
+            </div>
+            <div>
+                <div class="form-label">Initial Balance</div>
+                <input
+                    type="text"
+                    class="form-control"
+                    bind:value={wallet.initial_balance}
+                />
+            </div>
+            <button
+                class="btn btn-primary w-100 mt-3"
+                data-bs-dismiss="offcanvas"
             >
-                <option value="" disabled selected>Type</option>
-                <option value="Cash">Cash</option>
-                <option value="Bank">Bank</option>
-            </select>
-            <input
-                type="text"
-                placeholder="Initial Balance"
-                class="form-control"
-                bind:value={wallet.initial_balance}
-            />
-            <button class="btn btn-primary w-100" data-bs-dismiss="offcanvas">
                 {buttonTitle}
             </button>
         </form>
