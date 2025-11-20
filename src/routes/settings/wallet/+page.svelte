@@ -88,11 +88,7 @@
         <a href="/settings" class="navbar-toggler" type="button">
             <ChevronLeft />
         </a>
-        <div
-            class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3"
-        >
-            Wallets
-        </div>
+        <div class="navbar-brand navbar-brand-autodark">Wallets</div>
         <a
             type="button"
             class="btn btn-action text-primary"
@@ -110,7 +106,10 @@
             <div
                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
             >
-                {item.name}
+                <div>
+                    <div>{item.name}</div>
+                    <div class="fs-5 text-secondary">{item.type}</div>
+                </div>
                 <div>
                     <button
                         type="button"
@@ -158,11 +157,7 @@
             </div>
             <div>
                 <div class="form-label">Type</div>
-                <select
-                    type="text"
-                    class="form-select"
-                    bind:value={wallet.type}
-                >
+                <select class="form-select" bind:value={wallet.type}>
                     <option value="Cash">Cash</option>
                     <option value="Bank">Bank</option>
                 </select>
@@ -193,7 +188,7 @@
     <div class="offcanvas-body text-center">
         <AlertTriangle size="52" strokeWidth="1" class="text-danger" />
         <h3 class="mt-2">Delete {wallet.name} ?</h3>
-        <div class="mt-3">
+        <div class="my-3">
             <button
                 class="btn btn-danger w-100"
                 onclick={remove}

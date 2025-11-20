@@ -1,7 +1,7 @@
 <script>
 	import { page } from "$app/state";
 	import favicon from "$lib/assets/favicon.svg";
-	import { ChartPie, List, Settings } from "@lucide/svelte";
+	import { ArrowRightLeft, ChartPie, Settings } from "@lucide/svelte";
 	import "../app.css";
 
 	let { children } = $props();
@@ -37,15 +37,16 @@
 				>
 					<a class="nav-link flex-column" href="/">
 						<span class="nav-link-icon">
-							<List />
+							<ArrowRightLeft />
 						</span>
-						<span class="nav-link-title">List</span>
+						<span class="nav-link-title">Transaction</span>
 					</a>
 				</li>
 				<li
 					class={[
 						"nav-item",
-						page.url.pathname == "/settings" && "text-primary",
+						page.url.pathname.includes("/settings") &&
+							"text-primary",
 					]}
 				>
 					<a class="nav-link flex-column" href="/settings">

@@ -12,6 +12,7 @@
     let categories = $state([]);
     let category = $state({
         id: null,
+        type: null,
         name: null,
         description: null,
     });
@@ -20,7 +21,7 @@
 
     async function getAll() {
         categories = await db.sql`
-        SELECT category_id, name, description 
+        SELECT category_id, type, name, description 
         FROM categories
         ORDER BY name ASC;
         `;
@@ -31,6 +32,7 @@
 
         category = {
             id: null,
+            type: "Expense",
             name: null,
             description: null,
         };
@@ -41,6 +43,7 @@
 
         category = {
             id: item.category_id,
+            type: item.type,
             name: item.name,
             description: item.description,
         };
@@ -51,14 +54,15 @@
             await db.sql`
             UPDATE categories
             SET 
+                type = ${category.type},
                 name = ${category.name},
                 description = ${category.description}
             WHERE category_id = ${category.id};
             `;
         } else {
             await db.sql`
-            INSERT INTO categories (name, description) 
-            VALUES (${category.name}, ${category.description});
+            INSERT INTO categories (type, name, description) 
+            VALUES (${category.type}, ${category.name}, ${category.description});
             `;
         }
 
@@ -84,11 +88,7 @@
         <a href="/settings" class="navbar-toggler" type="button">
             <ChevronLeft />
         </a>
-        <div
-            class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3"
-        >
-            Categories
-        </div>
+        <div class="navbar-brand navbar-brand-autodark">Categories</div>
         <a
             type="button"
             class="btn btn-action text-primary"
@@ -106,7 +106,10 @@
             <div
                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
             >
-                {item.name}
+                <div>
+                    <div>{item.name}</div>
+                    <div class="fs-5 text-secondary">{item.type}</div>
+                </div>
                 <div>
                     <button
                         type="button"
@@ -144,20 +147,31 @@
     </div>
     <div class="offcanvas-body">
         <form class="space-y" onsubmit={save}>
-            <input
-                type="text"
-                placeholder="Name"
-                class="form-control"
-                bind:value={category.name}
-            />
-            <input
-                type="text"
-                placeholder="Description"
-                class="form-control"
-                bind:value={category.description}
-            />
+            <div>
+                <div class="form-label">Type</div>
+                <select class="form-select" bind:value={category.type}>
+                    <option>Expense</option>
+                    <option>Income</option>
+                </select>
+            </div>
+            <div>
+                <div class="form-label">Name</div>
+                <input
+                    type="text"
+                    class="form-control"
+                    bind:value={category.name}
+                />
+            </div>
+            <div>
+                <div class="form-label">Description</div>
+                <input
+                    type="text"
+                    class="form-control"
+                    bind:value={category.description}
+                />
+            </div>
             <button
-                class="btn btn-primary w-100 mt-3"
+                class="btn btn-primary w-100 my-3"
                 data-bs-dismiss="offcanvas"
             >
                 {buttonTitle}
@@ -174,7 +188,7 @@
     <div class="offcanvas-body text-center">
         <AlertTriangle size="52" strokeWidth="1" class="text-danger" />
         <h3 class="mt-2">Delete {category.name} ?</h3>
-        <div class="mt-3">
+        <div class="my-3">
             <button
                 class="btn btn-danger w-100"
                 onclick={remove}

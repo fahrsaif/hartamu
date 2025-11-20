@@ -4,11 +4,7 @@
 
 <header class="navbar navbar-expand-md d-print-none">
     <div class="container-xl justify-content-center">
-        <div
-            class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3"
-        >
-            Settings
-        </div>
+        <div class="navbar-brand navbar-brand-autodark">Settings</div>
     </div>
 </header>
 <div class="card">
