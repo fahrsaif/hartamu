@@ -79,7 +79,7 @@
     }
 
     async function save() {
-        let amountSign;
+        let amountSign = "";
 
         if (expense.category.type == "Expense") {
             amountSign = "-";
