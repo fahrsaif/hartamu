@@ -14,7 +14,7 @@
 <div class="page">
 	<div class="page-wrapper">
 		{@render children()}
-		<footer class="footer pt-3">
+		<footer class="footer pt-3 sticky-bottom">
 			<ul
 				class="d-flex flex-col justify-content-around mb-0 list-unstyled"
 			>

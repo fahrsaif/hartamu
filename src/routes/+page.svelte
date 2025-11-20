@@ -143,7 +143,7 @@
     });
 </script>
 
-<header class="navbar navbar-expand-md d-print-none">
+<header class="navbar sticky-top">
     <div class="container-xl">
         <div class="navbar-brand navbar-brand-autodark">Transactions</div>
         <a

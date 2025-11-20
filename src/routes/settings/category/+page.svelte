@@ -83,7 +83,7 @@
     });
 </script>
 
-<header class="navbar navbar-expand-md d-print-none">
+<header class="navbar sticky-top">
     <div class="container-xl">
         <a href="/settings" class="navbar-toggler" type="button">
             <ChevronLeft />

@@ -2,7 +2,7 @@
     import { ChevronRight } from "@lucide/svelte";
 </script>
 
-<header class="navbar navbar-expand-md d-print-none">
+<header class="navbar sticky-top">
     <div class="container-xl justify-content-center">
         <div class="navbar-brand navbar-brand-autodark">Settings</div>
     </div>
