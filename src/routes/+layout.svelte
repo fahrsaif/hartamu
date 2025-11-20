@@ -14,8 +14,10 @@
 <div class="page">
 	<div class="page-wrapper">
 		{@render children()}
-		<footer class="footer">
-			<ul class="d-flex flex-col justify-content-around list-unstyled">
+		<footer class="footer py-4">
+			<ul
+				class="d-flex flex-col justify-content-around mb-0 list-unstyled"
+			>
 				<li
 					class={[
 						"nav-item",

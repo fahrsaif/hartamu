@@ -214,6 +214,7 @@
                 <div class="form-label">Amount</div>
                 <input
                     type="number"
+                    inputmode="numeric"
                     class="form-control"
                     bind:value={expense.amount}
                 />
