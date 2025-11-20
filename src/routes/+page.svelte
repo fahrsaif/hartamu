@@ -9,17 +9,26 @@
     let expense = $state({
         id: null,
         wallet_id: null,
-        category: {
-            id: null,
-            type: null,
-        },
+        category_id: null,
         date: null,
         amount: null,
         description: null,
     });
     let formTitle = $derived(expense.id ? "Edit" : "Create");
     let buttonTitle = $derived(expense.id ? "Update" : "Create");
-    $inspect(expense);
+    let amountSign = $derived.by(() => {
+        let type = categories.find(
+            (item) => item.category_id == expense.category_id,
+        )?.type;
+
+        if (type == "Expense") {
+            return "-";
+        }
+
+        return "";
+    });
+    $inspect(amountSign);
+
     async function getWallets() {
         wallets = await db.sql`
         SELECT wallet_id, name
@@ -52,10 +61,7 @@
         expense = {
             id: null,
             wallet_id: null,
-            category: {
-                id: null,
-                type: null,
-            },
+            category_id: null,
             date: new Date().toISOString().split("T")[0],
             amount: null,
             description: null,
@@ -68,10 +74,7 @@
         expense = {
             id: item.expense_id,
             wallet_id: item.wallet_id,
-            category: {
-                id: item.category_id,
-                type: item.category_type,
-            },
+            category_id: item.category_id,
             date: item.date,
             amount: item.amount,
             description: item.description,
@@ -79,12 +82,6 @@
     }
 
     async function save() {
-        let amountSign = "";
-
-        if (expense.category.type == "Expense") {
-            amountSign = "-";
-        }
-
         expense.amount = amountSign + expense.amount;
 
         if (expense.id) {
@@ -92,7 +89,7 @@
             UPDATE expenses
             SET 
                 wallet_id = ${expense.wallet_id},
-                category_id = ${expense.category.id},
+                category_id = ${expense.category_id},
                 date = ${expense.date},
                 amount = ${expense.amount},
                 description = ${expense.description}
@@ -101,7 +98,7 @@
         } else {
             await db.sql`
             INSERT INTO expenses (wallet_id, category_id, date, amount, description) 
-            VALUES (${expense.wallet_id}, ${expense.category.id}, ${expense.date}, ${expense.amount}, ${expense.description});
+            VALUES (${expense.wallet_id}, ${expense.category_id}, ${expense.date}, ${expense.amount}, ${expense.description});
             `;
         }
 
@@ -199,13 +196,9 @@
             </div>
             <div>
                 <div class="form-label">Category</div>
-                <select class="form-select" bind:value={expense.category}>
+                <select class="form-select" bind:value={expense.category_id}>
                     {#each categories as item}
-                        <option
-                            value={{ id: item.category_id, type: item.type }}
-                        >
-                            {item.name}
-                        </option>
+                        <option value={item.category_id}>{item.name}</option>
                     {/each}
                 </select>
             </div>
@@ -220,7 +213,7 @@
             <div>
                 <div class="form-label">Amount</div>
                 <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     bind:value={expense.amount}
                 />
