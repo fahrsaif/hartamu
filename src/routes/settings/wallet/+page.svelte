@@ -176,7 +176,7 @@
                 />
             </div>
             <button
-                class="btn btn-primary w-100 mt-4"
+                class="btn btn-primary w-100 my-3"
                 data-bs-dismiss="offcanvas"
             >
                 {buttonTitle}
