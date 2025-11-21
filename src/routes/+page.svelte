@@ -1,4 +1,5 @@
 <script>
+    import { format, now } from "$lib/date";
     import { db } from "$lib/db";
     import { AlertTriangle, Edit, Plus, Trash } from "@lucide/svelte";
     import { onMount } from "svelte";
@@ -62,7 +63,7 @@
             id: null,
             wallet_id: null,
             category_id: null,
-            date: new Date().toISOString().split("T")[0],
+            date: now(),
             amount: null,
             description: null,
         };
@@ -160,10 +161,14 @@
 <div class="card">
     <div
         class="list-group list-group-flush overflow-auto"
-        style="max-height: 84vh"
+        style="max-height: 84vh;"
     >
-        <div class="list-group-header sticky-top">A</div>
-        {#each expenses as item}
+        {#each expenses as item, i}
+            {#if i == 0 || (i > 0 && item.date != expenses[i - 1].date)}
+                <div class="list-group-header sticky-top">
+                    {format(item.date)}
+                </div>
+            {/if}
             <div
                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
             >
