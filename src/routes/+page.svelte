@@ -158,7 +158,11 @@
     </div>
 </header>
 <div class="card">
-    <div class="list-group list-group-flush">
+    <div
+        class="list-group list-group-flush overflow-auto"
+        style="max-height: 84vh"
+    >
+        <div class="list-group-header sticky-top">A</div>
         {#each expenses as item}
             <div
                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
