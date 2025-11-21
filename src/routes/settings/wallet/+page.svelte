@@ -84,25 +84,27 @@
     });
 </script>
 
+<a
+    type="button"
+    class="btn btn-pill btn-floating btn-primary"
+    style="left: inherit; right: 1rem; bottom: 7rem; padding: 1rem;"
+    data-bs-toggle="offcanvas"
+    href="#wallet_form"
+    onclick={create}
+>
+    <Plus />
+</a>
 <header class="navbar sticky-top">
     <div class="container-xl">
         <a href="/settings" class="navbar-toggler" type="button">
             <ChevronLeft />
         </a>
         <div class="navbar-brand navbar-brand-autodark">Wallets</div>
-        <a
-            type="button"
-            class="btn btn-action text-primary"
-            data-bs-toggle="offcanvas"
-            href="#wallet_form"
-            onclick={create}
-        >
-            <Plus />
-        </a>
+        <button class="btn opacity-0" disabled>a</button>
     </div>
 </header>
-<div class="card">
-    <div class="list-group list-group-flush">
+<div class="card bg-transparent border-0" style="box-shadow: none;">
+    <div class="list-group list-group-flush" style="padding-bottom: 5rem;">
         {#each wallets as item}
             <div
                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"

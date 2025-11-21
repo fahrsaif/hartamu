@@ -13,14 +13,14 @@
             href="/settings/wallet"
             class="list-group-item list-group-item-action d-flex justify-content-between"
         >
-            Wallet
+            Wallets
             <ChevronRight />
         </a>
         <a
             href="/settings/category"
             class="list-group-item list-group-item-action d-flex justify-content-between"
         >
-            Category
+            Categories
             <ChevronRight />
         </a>
         <a

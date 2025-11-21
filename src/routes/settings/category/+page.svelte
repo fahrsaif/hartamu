@@ -2,11 +2,16 @@
     import { db } from "$lib/db";
     import {
         AlertTriangle,
+        ArrowDownAz,
+        ArrowDownZa,
         ChevronLeft,
+        ClockArrowDown,
         Edit,
+        Filter,
         Plus,
         Trash,
     } from "@lucide/svelte";
+    import lodash from "lodash";
     import { onMount } from "svelte";
 
     let categories = $state([]);
@@ -19,11 +24,30 @@
     let formTitle = $derived(category.id ? "Edit" : "Create");
     let buttonTitle = $derived(category.id ? "Update" : "Create");
 
+    let type = $state("all");
+    let sortDirection = $state(null); // by name only
+    let filteredCategories = $derived.by(() => {
+        if (type == "expense") {
+            return categories.filter((item) => item.type == "Expense");
+        }
+        if (type == "income") {
+            return categories.filter((item) => item.type == "Income");
+        }
+        return categories;
+    });
+    let sortedCategories = $derived.by(() => {
+        if (sortDirection) {
+            return lodash.orderBy(filteredCategories, "name", sortDirection);
+        } else {
+            return filteredCategories;
+        }
+    });
+
     async function getAll() {
         categories = await db.sql`
-        SELECT category_id, type, name, description 
+        SELECT category_id, type, name, description, created_at
         FROM categories
-        ORDER BY name ASC;
+        ORDER BY created_at DESC;
         `;
     }
 
@@ -83,26 +107,104 @@
     });
 </script>
 
+<a
+    type="button"
+    class="btn btn-pill btn-floating btn-primary"
+    style="left: inherit; right: 1rem; bottom: 7rem; padding: 1rem;"
+    data-bs-toggle="offcanvas"
+    href="#category_form"
+    onclick={create}
+>
+    <Plus />
+</a>
 <header class="navbar sticky-top">
     <div class="container-xl">
         <a href="/settings" class="navbar-toggler" type="button">
             <ChevronLeft />
         </a>
         <div class="navbar-brand navbar-brand-autodark">Categories</div>
-        <a
-            type="button"
-            class="btn btn-action text-primary"
-            data-bs-toggle="offcanvas"
-            href="#category_form"
-            onclick={create}
-        >
-            <Plus />
-        </a>
+        <div class="dropdown">
+            <button
+                type="button"
+                class="btn btn-action text-primary"
+                data-bs-toggle="dropdown"
+            >
+                <Filter />
+            </button>
+            <div class="dropdown-menu dropdown-menu-end">
+                <div class="dropdown-header">Filter & Sort</div>
+                <div
+                    class="btn-group w-100 px-3 pb-3 pt-2 shadow-none"
+                    role="group"
+                >
+                    <input
+                        type="radio"
+                        class="btn-check"
+                        name="filter"
+                        id="all"
+                        value="all"
+                        bind:group={type}
+                        checked
+                    />
+                    <label for="all" type="button" class="btn">All</label>
+                    <input
+                        type="radio"
+                        class="btn-check"
+                        name="filter"
+                        id="expense"
+                        value="expense"
+                        bind:group={type}
+                    />
+                    <label for="expense" type="button" class="btn">
+                        Expense
+                    </label>
+                    <input
+                        type="radio"
+                        class="btn-check"
+                        name="filter"
+                        id="income"
+                        value="income"
+                        bind:group={type}
+                    />
+                    <label for="income" type="button" class="btn">Income</label>
+                </div>
+                <button
+                    class={[
+                        "dropdown-item",
+                        sortDirection == null && "text-primary",
+                    ]}
+                    onclick={() => (sortDirection = null)}
+                >
+                    <ClockArrowDown />
+                    Last Created
+                </button>
+                <button
+                    class={[
+                        "dropdown-item",
+                        sortDirection == "asc" && "text-primary",
+                    ]}
+                    onclick={() => (sortDirection = "asc")}
+                >
+                    <ArrowDownAz />
+                    Name Ascending
+                </button>
+                <button
+                    class={[
+                        "dropdown-item",
+                        sortDirection == "desc" && "text-primary",
+                    ]}
+                    onclick={() => (sortDirection = "desc")}
+                >
+                    <ArrowDownZa />
+                    Name Descending
+                </button>
+            </div>
+        </div>
     </div>
 </header>
-<div class="card">
-    <div class="list-group list-group-flush">
-        {#each categories as item}
+<div class="card bg-transparent border-0" style="box-shadow: none;">
+    <div class="list-group list-group-flush" style="padding-bottom: 5rem;">
+        {#each sortedCategories as item}
             <div
                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
             >

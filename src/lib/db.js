@@ -19,7 +19,8 @@ export async function migrate() {
         category_id INTEGER PRIMARY KEY AUTOINCREMENT,
         type        TEXT    NOT NULL CHECK (type IN ('Expense', 'Income')), -- Enforces type to be 'Expense' or 'Income'
         name        TEXT    NOT NULL UNIQUE,
-        description TEXT
+        description TEXT,
+        created_at  TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%S', 'now')) -- NEW: Timestamp for creation
     );
 
     CREATE TABLE IF NOT EXISTS expenses (
